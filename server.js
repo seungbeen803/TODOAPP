@@ -2,6 +2,7 @@
 const express = require('express');
 const app = express();
 
+
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
   app.listen(5140, function () {
@@ -42,6 +43,10 @@ app.get('/write', function(req, res) {
 
 // 어떤 사람이 /add 경로로 POST 요청을 하면...app
 // ??를 해주세요~
-
+app.post('/add', (req, res) => {
+  res.send('전송완료');
+  console.log(req.body.title);
+  console.log(req.body.date);
+});
 
 // POST요청 처리 기계를 만들려면 app.post()
