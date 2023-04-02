@@ -1,7 +1,7 @@
 // 서버를 띄우기 위한 기본 셋팅(express 라이브러리)
 const express = require('express');
 const app = express();
-
+app.use(express.urlencoded({extended: true}))
 
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
