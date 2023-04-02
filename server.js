@@ -1,4 +1,3 @@
-
 // 서버를 띄우기 위한 기본 셋팅(express 라이브러리)
 const express = require('express');
 const app = express();
@@ -37,9 +36,12 @@ app.get('/', function(req, res) {
 // write get요청
 // 함수 안에 함수(function(){}) => 콜백함수
 // .get('경로', function(요청내용, 응답할 방법){})
-
+app.get('/write', function(req, res) {
+  res.sendFile(__dirname + '/write.html');
+});
 
 // 어떤 사람이 /add 경로로 POST 요청을 하면...app
 // ??를 해주세요~
+
 
 // POST요청 처리 기계를 만들려면 app.post()
