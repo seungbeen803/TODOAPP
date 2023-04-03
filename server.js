@@ -3,11 +3,22 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended: true}))
 
+// 변수 하나 필요
+var db;
 const MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
   // 연결되면 할일
   // 에러처리
   if(error) return console.log(error);
+
+  // todoapp이라는 database(폴더)에 연결
+  db = client.db('todoapp');
+
+  // 내 이름과 나이를 db에 저장해보자
+  // 데이터 코드
+  db.collection('post').insertOne({이름 : 'John', 나이 : 20}, (error, result) => {
+    console.log('저장완료');
+  });
 
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
