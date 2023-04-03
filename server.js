@@ -6,6 +6,7 @@ app.use(express.urlencoded({extended: true}))
 // 변수 하나 필요
 var db;
 const MongoClient = require('mongodb').MongoClient;
+app.set('view engine', 'ejs');
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
   // 연결되면 할일
   // 에러처리
@@ -78,8 +79,16 @@ app.post('/add', (req, res) => {
   
     // post라는 이름의 collection에 저장
     // db에 저장
-    db.collection('post').insertOne({ 제목: req.body.title, 날짜: req.body.date, _id: 514}, (error, result) => {
+    db.collection('post').insertOne({ 제목: req.body.title, 날짜: req.body.date}, (error, result) => {
       console.log('저장완료');
     });
 });
+
+// /list로 접속하면 데이터들을 보여줄 것임
+// /list로 GET요청으로 접속하면
+// 실제 DB에 저장된 데이터들로 예쁘게 꾸며진 HTML을 보여줌
+app.get('/list', (req, res) => {
+  res.sendFile(__filename + '/list.html');
+});
+
 
