@@ -87,8 +87,9 @@ app.post('/add', (req, res) => {
 // /list로 접속하면 데이터들을 보여줄 것임
 // /list로 GET요청으로 접속하면
 // 실제 DB에 저장된 데이터들로 예쁘게 꾸며진 HTML을 보여줌
+// 서버에서 .html 말고 .ejs 파일 보내주는 법
 app.get('/list', (req, res) => {
-  res.sendFile(__filename + '/list.html');
+  res.render('list.ejs');
 });
 
 
