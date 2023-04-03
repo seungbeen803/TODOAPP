@@ -5,6 +5,10 @@ app.use(express.urlencoded({extended: true}))
 
 const MongoClient = require('mongodb').MongoClient;
 MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
+  // 연결되면 할일
+  // 에러처리
+  if(error) return console.log(error);
+
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
   app.listen(5140, function () {
