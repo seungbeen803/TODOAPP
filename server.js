@@ -16,7 +16,8 @@ MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?
 
   // 내 이름과 나이를 db에 저장해보자
   // 데이터 코드
-  db.collection('post').insertOne({이름 : 'John', 나이 : 20}, (error, result) => {
+  // _id : 직접 적으면 된다
+  db.collection('post').insertOne({이름 : 'John', _id : 100}, (error, result) => {
     console.log('저장완료');
   });
 
@@ -67,6 +68,18 @@ app.get('/write', function(req, res) {
 // POST요청 처리 기계를 만들려면 app.post()
 app.post('/add', (req, res) => {
   res.send('전송완료');
-  console.log(req.body.title);
   console.log(req.body.date);
+  console.log(req.body.title);
+  // 숙제
+  // 어떤 사람이 /add 라는경로로 post 요청을 하면
+  // 데이터 2개(날짜, 제목)를 보내주는데,
+  // 이 때, 'post'라는 이름을 가진 collection에 데이터 두 개를 저장하기
+  // { 제목 : '어쩌구', 날짜: '어쩌구' }
+  
+    // post라는 이름의 collection에 저장
+    // db에 저장
+    db.collection('post').insertOne({ 제목: req.body.title, 날짜: req.body.date, _id: 514}, (error, result) => {
+      console.log('저장완료');
+    });
 });
+
