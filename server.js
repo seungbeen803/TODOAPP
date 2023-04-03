@@ -3,11 +3,16 @@ const express = require('express');
 const app = express();
 app.use(express.urlencoded({extended: true}))
 
+const MongoClient = require('mongodb').MongoClient;
+MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?retryWrites=true&w=majority', (error, client) => {
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
   app.listen(5140, function () {
     console.log('listening on 5140')
   });
+});
+
+ 
 
   // 누군가가 /pet 으로 방문을 하면..
 // pet 관련된 안내문을 띄워주자
