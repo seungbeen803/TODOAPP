@@ -18,9 +18,9 @@ MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?
   // 내 이름과 나이를 db에 저장해보자
   // 데이터 코드
   // _id : 직접 적으면 된다
-  db.collection('post').insertOne({이름 : 'John', _id : 100}, (error, result) => {
-    console.log('저장완료');
-  });
+  // db.collection('post').insertOne({이름 : 'John', _id : 100}, (error, result) => {
+  //   console.log('저장완료');
+  // });
 
   // listen(파라미터1, 파라미터2)
   // listen(서버 띄울 포트번호, 띄운 후 실행할 코드)
@@ -89,7 +89,15 @@ app.post('/add', (req, res) => {
 // 실제 DB에 저장된 데이터들로 예쁘게 꾸며진 HTML을 보여줌
 // 서버에서 .html 말고 .ejs 파일 보내주는 법
 app.get('/list', (req, res) => {
-  res.render('list.ejs');
+  // 1. DB에서 자료 찾아주세요
+  // db에 저장된 post라는 collection 안의 모든 데이터를 꺼내주세요
+  // 모든 데이터 가져오기 : .find().toArray();
+  // post 문서의 모든 데이터 출력해주세요
+  db.collection('post').find().toArray((error, result) => {
+    console.log(result);
+    // 2. 찾은 걸 ejs 파일에 집어넣어주세요
+    res.render('list.ejs', { posts : result });
+  });
 });
 
 
