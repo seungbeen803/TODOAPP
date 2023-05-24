@@ -3,15 +3,32 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const path = require('path');
+app.set('view engine', 'ejs');
+var db;
+// mongodb 연동
+const MongoClient = require('mongodb').MongoClient;
+MongoClient.connect('mongodb+srv://admin:qwer1234@cluster0.5mecfiu.mongodb.net/?retryWrites=true&w=majority', (err, client) => {
+
+
+  if (err) return console.log(404);
+
+  // todoapp이라는 database(폴더)에 연결
+  db = client.db('todoapp');
+
+  // db.collection('post').insertOne({ 이름: 'Jhon', 나이: 20, _id: 514 }, (err, result) => {
+  //   console.log('저장완료');
+  // });
+
+  app.listen(3333, () => {
+    console.log('Server is running 3333!');
+  });
+})
+
 
 // bodyParser
 // npm install body-parser 설치
 // body-parser는 요청 데이터(body)해석을 쉽게 도와줌
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.listen(3333, () => {
-  console.log('Server is running 3333!');
-});
 
 // 누군가가 /pet으로 방문을 하면
 // pet관련된 안내문을 띄워주자
@@ -42,4 +59,17 @@ app.post('/add', (req, res) => {
   // req.body 라고 하면 요청했던 form에 적힌 데이터 수신가능
   console.log(req.body.title);
   console.log(req.body.date);
+
+  // 'post'라는 이름을 가진 collection에 두 개 데이터 저장
+  db.collection('post').insertOne({ 제목: req.body.title, 날짜: req.body.date }, (err, result) => {
+    console.log('저장완료');
+  });
+});
+
+app.get('/list', (req, res) => {
+  // DB에 저장된 post라는 collection안의 모든 데이터를 꺼내기
+  db.collection('post').find().toArray((err, result) => {
+    console.log(result);
+    res.render('list2.ejs', { posts: result });
+  });
 });
