@@ -126,9 +126,12 @@ app.delete('/delete', (req, res) => {
   req.body._id = parseInt(req.body._id); // req.body 내의 _id를 숫자로 변환시키기
   // req.body에 담겨온 게시물번호를 가진 글을 db에서 찾아서 삭제해주세요
     db.collection('post').deleteOne(req.body, (err, result) => {
-      console.log('삭제완료');
+      console.log('삭제완료'); // 콘솔창에 삭제완료 출력
+      // 2XX를 보내면 요청성공이라는 의미
+      // 4XX를 보내면 고객 잘못으로 요청실패라는 뜻
+      // 응답코드 400을 보내주세요 & 메세지도 보내주세요
+      res.status(200).send({ message : '성공했습니다'}); // 성공
   });
-  res.send('삭제완료');
 });
 
 

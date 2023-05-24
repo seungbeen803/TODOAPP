@@ -63,6 +63,7 @@
   <script>
     $('.delete').click(function (e) {
       var 글번호 = e.target.dataset.id;
+      var 지금누른거 = $(this); // 현재 지금 이벤트가 동작하는 곳을 뜻함
         // jQuery 라이브러리 도움을 받은 AJAX요청
         $.ajax({
           method: 'DELETE',
@@ -72,7 +73,13 @@
         }).done(function (result) {
           // 페이지를 강제로 새로고침해주세요
           // 삭제버튼을 누른  <li> 요소를 제거해주세요(안보이게)
-            
+            console.log('삭제완료'); // 브라우저 콘솔창에 삭제완료 출력
+            // .parent() = ~의 부모 중 li태그를 찾아주세요
+            // .fadeOut() = 서서히 사라지게 해주세요
+            지금누른거.parent('li').fadeOut();
+
+        }).fail(function(xhr, textStatus, errorThrown){
+          console.log(xhr, textStatus, errorThrown);
         });
     });
 
