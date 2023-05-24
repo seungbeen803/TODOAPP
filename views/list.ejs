@@ -1,54 +1,99 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Todo App</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Write</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">임시</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+  <title>Hello, world!</title>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Todo App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Write</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">임시</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="list-group">
     <!-- 서버에서 가져온 할 일 리스트 -->
     <!-- posts에 들어있는 데이터 갯수만큼 h4 여러개 생성(반복문) -->
     <% for(var i=0; i < posts.length; i++) { %>
-      <h4> 할 일 제목 : <%= posts[i].제목 %> </h4>
-      <p> 할 일 마감 날짜 : <%= posts[i].날짜 %> </p>
+      <li class="list-group-item">
+        <p>글번호 : <%= posts[i]._id %></p>
+        <h4> 할 일 제목 : <%= posts[i].제목 %></h4>
+        <p> 할 일 마감 날짜 : <%= posts[i].날짜 %></p>
+
+        <!-- DELETE요청하는 법
+      1. method-overrid 라이브러리 이용
+      2. JavaScript AJAX를 이용 -->
+        <button type="button" class="btn btn-outline-secondary delete" data-id="<%= posts[i]._id %>">삭제</button>
+      </li>
     <% } %>
-      <!-- 서버에서 보낸 posts라는 변수 해체하기 -->
-      <!-- <h4>할 일 제목 : <%= posts[0].제목 %></h4>
+  </ul>
+
+  <!-- AJAX 서버랑 통신할 수 있게 도와주는 JS문법
+    - 새로고침 없이도 서버랑 통신이 가능 -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <!-- 1. 버튼마다 번호달기
+  2. 클릭한 버튼의 id를 파악 -->
+
+  <script>
+    $('.delete').click(function (e) {
+      var 글번호 = e.target.dataset.id;
+        // jQuery 라이브러리 도움을 받은 AJAX요청
+        $.ajax({
+          method: 'DELETE',
+          url: '/delete',
+          data: { _id: 글번호 }
+          // .done은 AJAX 요청이 성공했을때 실행해달라고 하는 것
+        }).done(function (result) {
+          // 페이지를 강제로 새로고침해주세요
+          // 삭제버튼을 누른  <li> 요소를 제거해주세요(안보이게)
+            
+        });
+    });
+
+  </script>
+
+  <!-- 서버에서 보낸 posts라는 변수 해체하기 -->
+  <!-- <h4>할 일 제목 : <%= posts[0].제목 %></h4>
         <p>할 일 마감 날짜 : <%= posts[0].날짜 %></p> -->
-      <!-- EJS : HTML을 조금 더 쓰기 쉽게하는 -->
-      <!-- list.html을 list.ejs로 이름바꾸기(그럼 ejs 문법 이용해 서버데이터 삽입 가능) -->
+  <!-- EJS : HTML을 조금 더 쓰기 쉽게하는 -->
+  <!-- list.html을 list.ejs로 이름바꾸기(그럼 ejs 문법 이용해 서버데이터 삽입 가능) -->
 
-    
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
